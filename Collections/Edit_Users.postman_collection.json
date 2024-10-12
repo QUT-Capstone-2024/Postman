@@ -1,0 +1,529 @@
+{
+  "info": {
+    "_postman_id": "7f01fa74-653f-4361-84dd-af90df49ec85",
+    "name": "Edit_Users",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "34815913"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 200 (success)",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Parse the JSON response body",
+              "var jsonData = pm.response.json();",
+              "",
+              "// Store user token and user ID",
+              "pm.test(\"Token is present in the response\", function () {",
+              "    pm.expect(jsonData).to.have.property(\"token\");",
+              "    pm.environment.set(\"userToken\", jsonData.token);",
+              "    pm.environment.set(\"userId\", jsonData.id);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update user {id}",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response contains user details\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.have.property(\"email\");",
+              "    pm.expect(jsonData).to.have.property(\"name\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Updated\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/users/{{userId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login(Admin)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 200 (success)",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Parse the JSON response body",
+              "var jsonData = pm.response.json();",
+              "",
+              "// Store admin token",
+              "pm.test(\"Token is present in the response\", function () {",
+              "    pm.expect(jsonData).to.have.property(\"token\");",
+              "    pm.environment.set(\"adminToken\", jsonData.token);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "All users (CL_ADMIN only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/users/all",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "users",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "All active users (CL_ADMIN only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/users/status/active",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "users",
+            "status",
+            "active"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "All archived users (CL_ADMIN only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/users/status/archived",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "users",
+            "status",
+            "archived"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Archive user {id} (CL_ADMIN only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/users/archive/{{userId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "users",
+            "archive",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Restore user {id} (CL_ADMIN only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/users/reactivate/{{userId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "users",
+            "reactivate",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login(Harbinger)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 200 (success)",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Parse the JSON response body",
+              "var jsonData = pm.response.json();",
+              "",
+              "// Store harbinger token",
+              "pm.test(\"Token is present in the response\", function () {",
+              "    pm.expect(jsonData).to.have.property(\"token\");",
+              "    pm.environment.set(\"harbingerToken\", jsonData.token);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "User {id} (HARBINGER only)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{harbingerToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/users/{{userId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "users",
+            "{{userId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}

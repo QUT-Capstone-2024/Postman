@@ -1,0 +1,44 @@
+{
+  "_": {
+    "postman_variable_scope": "environment",
+    "postman_exported_at": "2024-10-12T08:25:11.409Z",
+    "postman_exported_using": "Newman/6.2.1"
+  },
+  "id": "some-unique-id",
+  "name": "edit_user",
+  "values": [
+    {
+      "type": "any",
+      "value": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyVHlwZSI6IlBST1BFUlRZX09XTkVSIiwidXNlclJvbGUiOiJFWFRFUk5BTCIsInVzZXJJZCI6NTgsInN1YiI6IlByb3BlcnR5T3duZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3Mjg3MjE1MTEsImV4cCI6MTcyODc2NDcxMX0.21Cyp3Lww9rK2MWz_8DBclNRvsZMgOCbjYmazzpP9kc",
+      "key": "userToken"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "adminToken"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "harbingerToken"
+    },
+    {
+      "type": "any",
+      "value": 58,
+      "key": "userId"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "email"
+    },
+    {
+      "type": "any",
+      "value": "",
+      "key": "password"
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2024-10-12T08:25:12.790Z",
+  "_postman_exported_using": "Newman/6.2.1"
+}

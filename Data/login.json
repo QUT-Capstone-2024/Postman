@@ -1,0 +1,22 @@
+[
+  {
+    "email": "harbinger@example.com",
+    "password": "password123"
+  },
+  {
+    "email": "CLAdmin@example.com",
+    "password": "password123"
+  },
+  {
+    "email": "CLUser@example.com",
+    "password": "password123"
+  },
+  {
+    "email": "PropertOwner@example.com",
+    "password": "password123"
+  },
+  {
+    "email": "PropertyValuer@example.com",
+    "password": "password123"
+  }
+]

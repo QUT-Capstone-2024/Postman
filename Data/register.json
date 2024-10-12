@@ -1,0 +1,47 @@
+[
+  {
+    "name": "harbinger",
+    "email": "harbinger@example.com",
+    "password": "password123",
+    "phoneNumber": "1234567890",
+    "userType": "HARBINGER",
+    "userRole": "INTERNAL",
+    "propertyIds": []
+  },
+  {
+    "name": "CLAdmin",
+    "email": "CLAdmin@example.com",
+    "password": "password123",
+    "phoneNumber": "1234567890",
+    "userType": "CL_ADMIN",
+    "userRole": "INTERNAL",
+    "propertyIds": []
+  },
+  {
+    "name": "CLUser",
+    "email": "CLUser@example.com",
+    "password": "password123",
+    "phoneNumber": "1234567890",
+    "userType": "CL_USER",
+    "userRole": "INTERNAL",
+    "propertyIds": []
+  },
+  {
+    "name": "PropertyOwner",
+    "email": "PropertyOwner@example.com",
+    "password": "password123",
+    "phoneNumber": "1234567890",
+    "userType": "PROPERTY_OWNER",
+    "userRole": "EXTERNAL",
+    "propertyIds": []
+  },
+  {
+    "name": "PropertyValuer",
+    "email": "PropertyValuer@example.com",
+    "password": "password123",
+    "phoneNumber": "1234567890",
+    "userType": "PROPERTY_VALUER",
+    "userRole": "EXTERNAL",
+    "propertyIds": []
+  }
+]

@@ -104,9 +104,6 @@ if %ERRORLEVEL% neq 0 (
 )
 echo Upload image passed.
 
-:: Display environment variables after Upload Image Test
-echo Displaying environment variables after Upload Image Test:
-type "%TEMP_ENV_PATH%"
 
 :: -------------------------------
 :: Running 'all images in a collection' Test...

@@ -1,0 +1,468 @@
+{
+  "info": {
+    "_postman_id": "067d1e9a-a10b-4a79-8915-f9422cc5e0bd",
+    "name": "Images",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "34815913"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 200 (success)",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Parse the JSON response body",
+              "var jsonData = pm.response.json();",
+              "",
+              "// Test to check if the token field is present in the response",
+              "pm.test(\"Token is present in the response\", function () {",
+              "    pm.expect(jsonData).to.have.property(\"token\");",
+              "    pm.environment.set(\"authToken\", jsonData.token);",
+              "    pm.environment.set(\"userId\", jsonData.id);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Collection",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 201 (Created)",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "// Parse the JSON response body",
+              "var jsonData = pm.response.json();",
+              "",
+              "// Store the collectionId for later use",
+              "pm.environment.set(\"collectionId\", jsonData.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{authToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"propertyDescription\": \"Test Property\",\n  \"propertyAddress\": \"123 Main St\",\n \"collectionId\": \"col-12345\",\n \"propertySize\": 200,\n  \"externalPropertySize\": 800,\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"parkingSpaces\": 1,\n  \"approvalStatus\": \"PENDING\",\n  \"propertyType\": \"Apartment\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/collections",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "collections"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "upload image",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 201 (Created)",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "// Parse the JSON response body",
+              "var jsonData = pm.response.json();",
+              "",
+              "// Store the imageId for later use",
+              "pm.environment.set(\"imageId\", jsonData.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{authToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "address",
+              "value": "456 River Rd, Parramatta 2150, Sydney NSW",
+              "type": "text"
+            },
+            {
+              "key": "file",
+              "type": "file",
+              "src": "Data/Images/test-image.jpg"
+            },
+            {
+              "key": "userId",
+              "value": "{{userId}}",
+              "type": "text"
+            },
+            {
+              "key": "tag",
+              "value": "STREET",
+              "type": "text"
+            },
+            {
+              "key": "customTag",
+              "value": "STREET",
+              "type": "text"
+            },
+            {
+              "key": "description",
+              "value": "JUST AN AMAZING LOOKING BATHROOM LOOK HOW AMAZING IT LOOKS!!",
+              "type": "text"
+            },
+            {
+              "key": "collectionId",
+              "value": "{{collectionId}}",
+              "type": "text"
+            },
+            {
+              "key": "instanceNumber",
+              "value": "0",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/images/upload",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "images", "upload"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Remaining Tests",
+      "item": [
+        {
+          "name": "all images in a collection",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test to check if the status code is 200 (success)",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/images/collections/{{collectionId}}/images",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": [
+                "api",
+                "images",
+                "collections",
+                "{{collectionId}}",
+                "images"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update image metadata",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test to check if the status code is 200 (success)",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"imageStatus\": \"APPROVED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/images/collections/{{collectionId}}/images/{{imageId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": [
+                "api",
+                "images",
+                "collections",
+                "{{collectionId}}",
+                "images",
+                "{{imageId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "archive image",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test to check if the status code is 204 (No Content)",
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/images/collections/{{collectionId}}/images/{{imageId}}/archive",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": [
+                "api",
+                "images",
+                "collections",
+                "{{collectionId}}",
+                "images",
+                "{{imageId}}",
+                "archive"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "restore image",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test to check if the status code is 204 (No Content)",
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/images/collections/{{collectionId}}/images/{{imageId}}/reactivate",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": [
+                "api",
+                "images",
+                "collections",
+                "{{collectionId}}",
+                "images",
+                "{{imageId}}",
+                "reactivate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Image",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Test to check if the status code is 204 (No Content)",
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/images/collections/{{collectionId}}/images/{{imageId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": [
+                "api",
+                "images",
+                "collections",
+                "{{collectionId}}",
+                "images",
+                "{{imageId}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

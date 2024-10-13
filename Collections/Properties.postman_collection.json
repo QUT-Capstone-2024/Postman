@@ -1,0 +1,485 @@
+{
+  "info": {
+    "_postman_id": "e48564fe-e612-42db-9d9e-c209dcfc6b86",
+    "name": "Properties",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "34815913"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 200 (success)",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Parse the JSON response body",
+              "var jsonData = pm.response.json();",
+              "",
+              "// Test to check if the token field is present in the response",
+              "pm.test(\"Token is present in the response\", function () {",
+              "    pm.expect(jsonData).to.have.property(\"token\");",
+              "    pm.environment.set(\"authToken\", jsonData.token);",
+              "    pm.environment.set(\"userId\", jsonData.id);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Properties by Address",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 200 (success)",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Additional tests can be added here"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{authToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/collections/search?address=123",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "collections", "search"],
+          "query": [
+            {
+              "key": "address",
+              "value": "123"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create a collection",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 201 (Created)",
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "// Parse the JSON response body",
+              "var jsonData = pm.response.json();",
+              "",
+              "// Store the collectionId for later use",
+              "pm.environment.set(\"collectionId\", jsonData.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{authToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"propertyDescription\": \"Test Property\",\n  \"propertyAddress\": \"123 Main St\",\n  \"collectionId\": \"col-12345\",\n \"propertySize\": 200,\n  \"externalPropertySize\": 800,\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"parkingSpaces\": 1,\n  \"approvalStatus\": \"PENDING\",\n  \"propertyType\": \"Apartment\"\n}\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/collections",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "collections"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "all collections <id>",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 200 (success)",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Additional tests can be added here"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{authToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/collections/user/{{userId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "collections", "user", "{{userId}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update a collection",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 200 (success)",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Additional tests can be added here"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{authToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"propertyDescription\": \"Updated Property\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/collections/{{collectionId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "collections", "{{collectionId}}"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login(Admin)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 200 (success)",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Parse the JSON response body",
+              "var jsonData = pm.response.json();",
+              "",
+              "// Store the admin authToken",
+              "pm.environment.set(\"authToken\", jsonData.token);",
+              "pm.environment.set(\"adminId\", jsonData.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "archive collection <id>(Admin)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 204 (success)",
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});",
+              "",
+              "// Additional tests can be added here"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{authToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/collections/{{collectionId}}/archive",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "collections", "{{collectionId}}", "archive"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "restore a collection <id>(Admin)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 204 (success)",
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});",
+              "",
+              "// Additional tests can be added here"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{authToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/collections/{{collectionId}}/reactivate",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "collections", "{{collectionId}}", "reactivate"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login(Harbinger)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 200 (success)",
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Parse the JSON response body",
+              "var jsonData = pm.response.json();",
+              "",
+              "// Store the harbinger authToken",
+              "pm.environment.set(\"authToken\", jsonData.token);",
+              "pm.environment.set(\"harbingerId\", jsonData.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/auth/login",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "collection <id>(Harbinger)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test to check if the status code is 204 (No Content)",
+              "pm.test(\"Status code is 204\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});",
+              "",
+              "// Additional tests can be added here"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{authToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/collections/{{collectionId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "collections", "{{collectionId}}"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
